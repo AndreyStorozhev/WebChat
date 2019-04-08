@@ -42,11 +42,14 @@ public class ChatController {
     }
 
     @MessageMapping("/hello")
-    @SendTo("/topic/chat/")
-    public Message chatting(Message message) {
+//    @SendTo("/topic/chat/")
+    public void chatting(Message message) {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm | dd.MM");
-        return new Message(message.getName(), message.getMsg(), dateFormat.format(date));
+        Message sendMessage = new Message(message.getName(), message.getMsg(), dateFormat.format(date));
+        messagingTemplate.convertAndSend("/topic/chat/" + UIDConversation, sendMessage);
+        //создать сущности и плясать уже от них
+//        return new Message(message.getName(), message.getMsg(), dateFormat.format(date));
     }
 
     @RequestMapping("/chat/check")
