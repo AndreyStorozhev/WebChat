@@ -1,14 +1,30 @@
 package project.entity;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+@Entity
+@Table(name = "conversation", schema = "mydbtest")
 public class Conversation {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "UIDConversation")
     private int UIDConversation;
+
+    @Column(name = "last_active_chat_date")
     private Date lastActiveChatDate;
-    private Set<UserDetails> userDetailsSet; // многие ко многим
-    private Set<Message> messages; //многие к одному
+
+    @ManyToMany
+    @JoinTable(name = "conversations_users", joinColumns = @JoinColumn(name = "conversation_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_details_id"))
+    private Set<UserDetails> userDetailsSet;
+
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<Message> messages;
 
     public int getId() {
         return id;

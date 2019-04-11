@@ -40,6 +40,7 @@ public class UserDetails implements Serializable {
     @Transient
     private String confirmPassword;
 
+    @ManyToMany(mappedBy = "userDetailsSet")
     private Set<Conversation> conversations;
 
     public boolean isActivateAccount() {
@@ -122,6 +123,14 @@ public class UserDetails implements Serializable {
         this.role = role;
     }
 
+    public Set<Conversation> getConversations() {
+        return conversations;
+    }
+
+    public void setConversations(Set<Conversation> conversations) {
+        this.conversations = conversations;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -139,7 +148,6 @@ public class UserDetails implements Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, login, password, email, name, lastName, age, role);
     }
 }
