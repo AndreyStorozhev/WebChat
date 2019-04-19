@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import project.entity.UserDetails;
-import project.service.UserDetailsService;
+import project.service.user.UserDetailsService;
 import project.service.security.SecurityService;
 
 

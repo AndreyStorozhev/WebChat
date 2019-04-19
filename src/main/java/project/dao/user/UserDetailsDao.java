@@ -1,4 +1,4 @@
-package project.dao;
+package project.dao.user;
 
 import project.entity.UserDetails;
 

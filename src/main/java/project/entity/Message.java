@@ -24,15 +24,6 @@ public class Message implements Serializable {
     @JoinColumn(name = "conversation_id")
     private Conversation conversation;
 
-    public Message(String name, String msg, String formatDate) {
-        this.msg = msg;
-        this.name = name;
-        this.formatDate = formatDate;
-    }
-
-    public Message() {
-    }
-
     public int getId() {
         return id;
     }

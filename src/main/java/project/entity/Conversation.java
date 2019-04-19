@@ -1,7 +1,10 @@
 package project.entity;
 
+import org.springframework.util.CollectionUtils;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +21,7 @@ public class Conversation {
     @Column(name = "last_active_chat_date")
     private Date lastActiveChatDate;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "conversations_users", joinColumns = @JoinColumn(name = "conversation_id"),
             inverseJoinColumns = @JoinColumn(name = "user_details_id"))
     private Set<UserDetails> userDetailsSet;
@@ -59,6 +62,8 @@ public class Conversation {
     }
 
     public Set<Message> getMessages() {
+        if (CollectionUtils.isEmpty(messages))
+            return new HashSet<>();
         return messages;
     }
 

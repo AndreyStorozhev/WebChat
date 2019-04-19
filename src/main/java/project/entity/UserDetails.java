@@ -40,7 +40,7 @@ public class UserDetails implements Serializable {
     @Transient
     private String confirmPassword;
 
-    @ManyToMany(mappedBy = "userDetailsSet")
+    @ManyToMany(mappedBy = "userDetailsSet", fetch = FetchType.EAGER)
     private Set<Conversation> conversations;
 
     public boolean isActivateAccount() {

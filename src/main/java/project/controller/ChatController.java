@@ -8,9 +8,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import project.dto.MessageDto;
+import project.entity.Conversation;
 import project.entity.UserDetails;
-import project.entity.Message;
-import project.service.UserDetailsService;
+import project.service.user.UserDetailsService;
+import project.service.chating.ConversationService;
+import project.service.chating.MessageService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,6 +28,12 @@ public class ChatController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private ConversationService conversationService;
+
+    @Autowired
+    private MessageService messageService;
 
     @RequestMapping("/some")
     public String some(Model model) {
@@ -41,20 +51,26 @@ public class ChatController {
     }
 
     @MessageMapping("/hello")
-//    @SendTo("/topic/chat/")
-    public void chatting(Message message) {
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm | dd.MM");
-        Message sendMessage = new Message(message.getName(), message.getMsg(), dateFormat.format(date));
-        messagingTemplate.convertAndSend("/topic/chat/" + UIDConversation, sendMessage);
-        //создать сущности и плясать уже от них
-//        return new Message(message.getName(), message.getMsg(), dateFormat.format(date));
+    public void chatting(MessageDto message) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+        messageService.saveMessage(message);
+        message.setFormatDate(dateFormat.format(new Date()));
+        messagingTemplate.convertAndSend("/topic/chat", message);
     }
 
     @RequestMapping("/chat/check")
     @ResponseBody
-    public String checkChat(@RequestParam(value = "UIDConversation") String UIDConversation) {
-
+    public int checkChat(@RequestParam(value = "idClickUser") int idClickUser,
+                                  @RequestParam(value = "currentUserId") int currentUserId,
+                                  @RequestParam(value = "UIDConversation") int UIDConversation) {
+        Conversation conversation = conversationService.getConversationByUIDConversation(UIDConversation);
+        ModelAndView model = new ModelAndView("some");
+        if (conversation != null) {
+            model.addObject("messageConversation", conversation.getMessages());
+            return UIDConversation;
+        }
+        Conversation newConversation = conversationService.createNewConversation(idClickUser, currentUserId, UIDConversation);
+        model.addObject("messageConversation", newConversation.getMessages());
         return UIDConversation;
     }
 }

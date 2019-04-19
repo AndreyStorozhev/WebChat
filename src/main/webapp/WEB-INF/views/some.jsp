@@ -286,7 +286,7 @@
                 '                                <span class="time_date">' + date + '</span></div>\n' +
                 '                        </div>\n' +
                 '                    </div>');
-            stompClient.send("/app/hello", {}, JSON.stringify({'name': userName, 'msg': message}));
+            stompClient.send("/app/hello", {}, JSON.stringify({'name': userName, 'msg': message, 'conversationUID' : UIDConversation}));
             $('#write_msg').val('');
         }
 
@@ -309,6 +309,8 @@
                     type: 'POST',
                     url: '/chat/check',
                     data: {
+                        idClickUser: idClickUser,
+                        currentUserId: currentUserId,
                         UIDConversation: UIDConversation
                     },
                     success: function (data) {

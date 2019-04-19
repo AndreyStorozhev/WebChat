@@ -1,4 +1,4 @@
-package project.service;
+package project.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -7,7 +7,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import project.dao.UserDetailsDao;
+import project.dao.user.UserDetailsDao;
 import project.entity.UserDetails;
 import project.service.email.MailSender;
 
