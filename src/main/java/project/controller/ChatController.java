@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import project.dto.MessageDto;
 import project.entity.Conversation;
+import project.entity.Message;
 import project.entity.UserDetails;
 import project.service.user.UserDetailsService;
 import project.service.chating.ConversationService;
 import project.service.chating.MessageService;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 
 @Controller
@@ -72,5 +73,19 @@ public class ChatController {
         Conversation newConversation = conversationService.createNewConversation(idClickUser, currentUserId, UIDConversation);
         model.addObject("messageConversation", newConversation.getMessages());
         return UIDConversation;
+    }
+
+    private List<MessageDto> convertToListDtoMessage(Set<Message> messageSet) {
+        List<Message> list = new ArrayList<>(messageSet);
+        list.sort(Comparator.comparingInt(Message::getId));
+        List<MessageDto> resultList = new ArrayList<>();
+        for (Message message : list) {
+            MessageDto messageDto = new MessageDto();
+            messageDto.setMsg(message.getMsg());
+            messageDto.setName(message.getName());
+            messageDto.setFormatDate(message.getFormatDate());
+            resultList.add(messageDto);
+        }
+        return resultList;
     }
 }
