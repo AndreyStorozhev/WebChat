@@ -7,7 +7,7 @@ import project.dao.chating.ConversationDao;
 import project.entity.Conversation;
 import project.entity.UserDetails;
 
-import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.HashSet;
 
 @Service
@@ -34,7 +34,7 @@ public class ConversationServiceImpl implements ConversationService {
         UserDetails userClick = userDao.findById(idClickUser);
         UserDetails userCurrent = userDao.findById(currentUserId);
         conversation.setUIDConversation(UIDConversation);
-        conversation.setUserDetailsSet(new HashSet<>(Arrays.asList(userClick, userCurrent)));
+        conversation.setUserDetailsSet(new HashSet<>(asList(userClick, userCurrent)));
         save(conversation);
         return conversation;
     }
