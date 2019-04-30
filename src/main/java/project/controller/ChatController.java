@@ -44,7 +44,9 @@ public class ChatController {
         UserDetails byLogin = service.findByLogin(userLogin);
         model.addAttribute("username", userLogin);
         model.addAttribute("userId", byLogin.getId());
-        model.addAttribute("allLoginUser", service.loginInUsers());
+        List<UserDetails> userDetailsList = service.loginInUsers();
+        userDetailsList.remove(byLogin);
+        model.addAttribute("allLoginUser", userDetailsList);
         return "some";
     }
 
