@@ -277,15 +277,7 @@
 
             var date = new Date().toLocaleString("ru", options);
 
-            $('.msg_history').append('<div class="incoming_msg">\n' +
-                '                        <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png"\n' +
-                '                                                           alt="sunil"></div>\n' +
-                '                        <div class="received_msg">\n' +
-                '                            <div class="received_withd_msg">\n' +
-                '                                <p id="user_msg">' + message + '</p>\n' +
-                '                                <span class="time_date">' + date + '</span></div>\n' +
-                '                        </div>\n' +
-                '                    </div>');
+            printMsg(message, date);
             stompClient.send("/app/hello", {}, JSON.stringify({'name': userName, 'msg': message, 'conversationUID' : UIDConversation}));
             $('#write_msg').val('');
         }
@@ -298,6 +290,18 @@
                     '                            <span class="time_date">' + formatDate + '</span></div>\n' +
                     '                    </div>');
             }
+        }
+
+        function printMsg(msg, formatDate) {
+            $('.msg_history').append('<div class="incoming_msg">\n' +
+                '                        <div class="incoming_msg_img"><img src="https://ptetutorials.com/images/user-profile.png"\n' +
+                '                                                           alt="sunil"></div>\n' +
+                '                        <div class="received_msg">\n' +
+                '                            <div class="received_withd_msg">\n' +
+                '                                <p id="user_msg">' + msg + '</p>\n' +
+                '                                <span class="time_date">' + formatDate + '</span></div>\n' +
+                '                        </div>\n' +
+                '                    </div>');
         }
 
         $(document).ready(function () {
@@ -315,6 +319,13 @@
                     },
                     success: function (data) {
                         console.log(data);
+                        $.each(data, function (key, value) {
+                            if (value.name === userName) {
+                                printMsg(value.msg, value.formatDate);
+                            } else {
+                                showMessage(value.name, value.msg, value.formatDate);
+                            }
+                        });
                     }
                 });
             });
