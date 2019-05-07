@@ -16,5 +16,6 @@
             <td>${user.email}</td>
         </tr>
     </c:forEach>
+<a href="<c:url value="/chat"/>">go to chat</a>
 </body>
 </html>

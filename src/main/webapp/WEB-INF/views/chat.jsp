@@ -42,7 +42,7 @@
                 month: 'numeric',
                 day: 'numeric',
                 hour: 'numeric',
-                minute: 'numeric',
+                minute: 'numeric'
             };
 
             var date = new Date().toLocaleString("ru", options);

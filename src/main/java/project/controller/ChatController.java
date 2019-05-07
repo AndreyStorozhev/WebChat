@@ -34,7 +34,7 @@ public class ChatController {
     @Autowired
     private MessageService messageService;
 
-    @RequestMapping("/some")
+    @RequestMapping("/chat")
     public String some(Model model) {
         String userLogin = service.getUserLogin();
         UserDetails byLogin = service.findByLogin(userLogin);
@@ -43,7 +43,7 @@ public class ChatController {
         List<UserDetails> userDetailsList = service.loginInUsers();
         userDetailsList.remove(byLogin);
         model.addAttribute("allLoginUser", userDetailsList);
-        return "some";
+        return "chat";
     }
 
     @MessageMapping("/hello")
@@ -51,6 +51,7 @@ public class ChatController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         message.setFormatDate(dateFormat.format(new Date()));
         Message saveMessage = messageService.saveMessage(message);
+        messagingTemplate.convertAndSendToUser("AndreBog", "/topic/chat/" + saveMessage.getConversation().getUIDConversation(), message);
         messagingTemplate.convertAndSend("/topic/chat/" + saveMessage.getConversation().getUIDConversation(), message);
     }
 
