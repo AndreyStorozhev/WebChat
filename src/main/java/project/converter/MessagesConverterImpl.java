@@ -34,9 +34,9 @@ public class MessagesConverterImpl implements MessagesConverter {
 
     @Override
     public Message convertToMessageFromDto(MessageDto message) {
-        Conversation conversation = conversationService.getConversationByUIDConversation(Integer.parseInt(message.getConversationUID()));
+        Conversation conversation = conversationService.getConversationByUID(Integer.parseInt(message.getConversationUID()));
         if (conversation == null)
-            conversation = conversationService.getConversationByUIDConversation(Integer.parseInt(new StringBuilder(message.getConversationUID()).reverse().toString()));
+            conversation = conversationService.getConversationByUID(Integer.parseInt(new StringBuilder(message.getConversationUID()).reverse().toString()));
 
         Message saveMessage = new Message();
 
