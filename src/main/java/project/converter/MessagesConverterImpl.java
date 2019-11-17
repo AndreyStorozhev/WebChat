@@ -23,13 +23,17 @@ public class MessagesConverterImpl implements MessagesConverter {
         list.sort(Comparator.comparingInt(Message::getId));
         List<MessageDto> resultList = new ArrayList<>();
         for (Message message : list) {
-            MessageDto messageDto = new MessageDto();
-            messageDto.setMsg(message.getMsg());
-            messageDto.setName(message.getName());
-            messageDto.setFormatDate(message.getFormatDate());
-            resultList.add(messageDto);
+            resultList.add(getMessageDto(message));
         }
         return resultList;
+    }
+
+    private MessageDto getMessageDto(Message message) {
+        MessageDto messageDto = new MessageDto();
+        messageDto.setMsg(message.getMsg());
+        messageDto.setName(message.getName());
+        messageDto.setFormatDate(message.getFormatDate());
+        return messageDto;
     }
 
     @Override

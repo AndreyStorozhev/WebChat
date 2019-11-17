@@ -31,7 +31,7 @@ public class ConversationServiceImpl implements ConversationService {
 
     @Override
     public Conversation getConversationByUID(int UIDConversation) {
-        return dao.getConversationByUIDConversation(UIDConversation);
+        return dao.getConversationByUID(UIDConversation);
     }
 
     private Conversation createNewConversation(int idClickUser, int currentUserId, int UIDConversation) {
@@ -50,11 +50,11 @@ public class ConversationServiceImpl implements ConversationService {
     }
 
     @Override
-    public List<MessageDto> chatHistory(int idClickUser, int currentUserId, int UIDConversation) {
-        Conversation conversation = getConversationByUID(UIDConversation);
-        Conversation conversationReverse = getConversationByUID(reversUID(UIDConversation));
+    public List<MessageDto> chatHistory(int idClickUser, int currentUserId, int conversationUID) {
+        Conversation conversation = getConversationByUID(conversationUID);
+        Conversation conversationReverse = getConversationByUID(reversUID(conversationUID));
         if (conversation == null && conversationReverse == null) {
-            Conversation newConversation = createNewConversation(idClickUser, currentUserId, UIDConversation);
+            Conversation newConversation = createNewConversation(idClickUser, currentUserId, conversationUID);
             return converter.convertToListDtoMessage(newConversation.getMessages());
         }
         return conversation == null ? converter.convertToListDtoMessage(conversationReverse.getMessages()) : converter.convertToListDtoMessage(conversation.getMessages());

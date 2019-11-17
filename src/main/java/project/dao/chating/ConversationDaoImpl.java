@@ -21,7 +21,7 @@ public class ConversationDaoImpl implements ConversationDao {
     }
 
     @Override
-    public Conversation getConversationByUIDConversation(int UIDConversation) {
+    public Conversation getConversationByUID(int UIDConversation) {
         Query query = entityManager.createQuery("SELECT c from Conversation c where c.UIDConversation = :UIDConversation");
         query.setParameter("UIDConversation", UIDConversation);
         Conversation result;

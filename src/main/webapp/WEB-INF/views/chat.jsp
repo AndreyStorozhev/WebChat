@@ -59,6 +59,7 @@
                     '                            <p id="server_mgs_response">' + msg + '</p>\n' +
                     '                            <span class="time_date">' + formatDate + '</span></div>\n' +
                     '                    </div>');
+                $('#lastMsg').val('');
                 $('#lastMsg').val(msg);
             }
         }

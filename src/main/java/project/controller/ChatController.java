@@ -51,7 +51,7 @@ public class ChatController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
         message.setFormatDate(dateFormat.format(new Date()));
         Message saveMessage = messageService.saveMessage(message);
-        messagingTemplate.convertAndSendToUser("AndreBog", "/topic/chat/" + saveMessage.getConversation().getUIDConversation(), message);
+//        messagingTemplate.convertAndSendToUser("AndreBog", "/topic/chat/" + saveMessage.getConversation().getUIDConversation(), message);
         messagingTemplate.convertAndSend("/topic/chat/" + saveMessage.getConversation().getUIDConversation(), message);
     }
 
@@ -59,7 +59,7 @@ public class ChatController {
     @ResponseBody
     public List<MessageDto> checkChat(@RequestParam(value = "idClickUser") int idClickUser,
                                   @RequestParam(value = "currentUserId") int currentUserId,
-                                  @RequestParam(value = "UIDConversation") int UIDConversation) {
-        return conversationService.chatHistory(idClickUser, currentUserId, UIDConversation);
+                                  @RequestParam(value = "UIDConversation") int conversationUID) {
+        return conversationService.chatHistory(idClickUser, currentUserId, conversationUID);
     }
 }
