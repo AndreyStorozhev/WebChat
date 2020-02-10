@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+</head>
+<body>
+<p>Список всех пользовтелей</p>
+<div th:each="user : ${loginInUsers}">
+    <span th:text="${user.id}"></span>
+    <span th:text="${user.login}"></span>
+    <span th:text="${user.name}"></span>
+    <span th:text="${user.lastName}"></span>
+    <span th:text="${user.email}"></span>
+</div>
+<a href="/chat">go to chat</a>
+</body>
+</html>

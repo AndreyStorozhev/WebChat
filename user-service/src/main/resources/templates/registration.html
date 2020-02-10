@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Регистрация</title>
+    <script src="/scripts/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css"/>
+    <style>
+        .form-width {
+            max-width: 25rem;
+        }
+
+        .has-float-label {
+            position: relative;
+        }
+
+        .has-float-label label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            cursor: name;
+            font-size: 75%;
+            opacity: 1;
+            -webkit-transition: all .2s;
+            transition: all .2s;
+            top: -.5em;
+            left: 0.75rem;
+            z-index: 3;
+            line-height: 1;
+            padding: 0 1px;
+        }
+
+        .has-float-label label::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            background: white;
+            height: 2px;
+            top: 50%;
+            left: -.2em;
+            right: -.2em;
+            z-index: -1;
+        }
+
+        .has-float-label .form-control::-webkit-input-placeholder {
+            opacity: 1;
+            -webkit-transition: all .2s;
+            transition: all .2s;
+        }
+
+        .has-float-label .form-control:placeholder-shown:not(:focus)::-webkit-input-placeholder {
+            opacity: 0;
+        }
+
+        .has-float-label .form-control:placeholder-shown:not(:focus) + label {
+            font-size: 150%;
+            opacity: .5;
+            top: .3em;
+        }
+
+        .input-group .has-float-label {
+            display: table-cell;
+        }
+
+        .input-group .has-float-label .form-control {
+            border-radius: 0.25rem;
+        }
+
+        .input-group .has-float-label:not(:last-child) .form-control {
+            border-bottom-right-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .input-group .has-float-label:not(:first-child) .form-control {
+            border-bottom-left-radius: 0;
+            border-top-left-radius: 0;
+            margin-left: -1px;
+        }
+    </style>
+</head>
+<body>
+<div class="p-x-1 p-y-3">
+    <form method="post" th:object="${user}" class="card card-block m-x-auto bg-faded form-width">
+        <legend class="m-b-1 name-xs-center">Registration</legend>
+        <div class="form-group has-float-label">
+            <input id="login" th:field="*{login}" required="required" class="form-control" placeholder="Login"/>
+            <label th:field="*{login}" class="label" for="login">Login</label>
+            <div class="valid-tooltip">
+                <td th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></td>
+            </div>
+        </div>
+        <div class="form-group has-float-label">
+            <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="Password"
+                   required="required"/>
+            <label th:field="*{password}" for="password">Password</label>
+            <div>
+                <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></td>
+            </div>
+        </div>
+        <div class="form-group has-float-label">
+            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="form-control"
+                   placeholder="Confirm password" required="required"/>
+            <label th:field="*{confirmPassword}" cssClass="label" for="confirmPassword">Confirm password</label>
+            <div>
+                <td th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></td>
+            </div>
+        </div>
+        <div class="form-group input-group">
+            <span class="input-group-addon">@</span>
+            <span class="has-float-label">
+                    <input id="email" th:field="*{email}" class="form-control" placeholder="Email" required="required"/>
+                    <label th:field="*{email}" cssClass="label" for="email">Email</label>
+                </span>
+            <div>
+                <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
+            </div>
+        </div>
+        <div class="form-group input-group">
+                <span class="has-float-label">
+                    <input id="name" th:field="*{name}" class="form-control" placeholder="Name"/>
+                    <label th:field="*{name}" cssClass="label" for="name">Name</label>
+                </span>
+            <span class="has-float-label">
+                    <input id="lastName" th:field="*{lastName}" class="form-control" placeholder="Last name"/>
+                    <label th:field="*{lastName}" cssClass="label" for="lastName">Last name</label>
+                </span>
+        </div>
+        <div class="form-group has-float-label">
+            <input id="age" th:field="*{age}" class="form-control" placeholder="Age"/>
+            <label th:field="*{age}" cssClass="label" for="age">Age</label>
+        </div>
+        <div class="name-xs-center">
+            <button id="button" class="btn btn-block btn-primary" type="submit">Registration</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
