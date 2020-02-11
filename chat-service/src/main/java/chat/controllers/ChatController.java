@@ -1,7 +1,10 @@
 package chat.controllers;
 
+import chat.dao.ChatUserDao;
 import chat.dto.MessageDto;
+import chat.entity.ChatUser;
 import chat.entity.Message;
+import chat.service.ChatUserService;
 import chat.service.ConversationService;
 import chat.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +12,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,16 +29,13 @@ public class ChatController {
     @Autowired
     private MessageService messageService;
 
-    @RequestMapping("/chat")
-    public String some(Model model) {
-        String userLogin = service.getUserLogin();
-        User byLogin = service.findByLogin(userLogin);
-        model.addAttribute("username", userLogin);
-        model.addAttribute("userId", byLogin.getId());
-        List<User> userDetailsList = service.loginInUsers();
-        userDetailsList.remove(byLogin);
-        model.addAttribute("allLoginUser", userDetailsList);
-        return "chat";
+    @Autowired
+    private ChatUserService service;
+
+    @PostMapping("/create/chat-user")
+    public void createChatUser(@RequestBody ChatUser user) {
+        service.save(user);
+        System.out.println(user);
     }
 
     @MessageMapping("/hello")

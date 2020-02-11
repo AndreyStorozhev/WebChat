@@ -1,19 +1,18 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-
+    <meta charset="UTF-8">
+    <title>Chat</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
           rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="<spring:url value="/resources/css/myStyle.css"/>">
-    <script src="<spring:url value="/resources/scripts/sockjs.min.js"/>"></script>
-    <script src="<spring:url value="/resources/scripts/stomp.min.js"/>"></script>
-    <script src="<spring:url value="/resources/scripts/jquery-3.3.1.min.js"/>"></script>
+    <link rel="stylesheet" type="text/css" href="css/myStyle.css"/>
+    ">
+    <script src="scripts/sockjs.min.js"></script>
+    <script src="/scripts/stomp.min.js"></script>
+    <script src="scripts/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
         var stompClient = null;
         var UIDConversation = null;
@@ -48,7 +47,11 @@
             var date = new Date().toLocaleString("ru", options);
 
             printMsg(message, date);
-            stompClient.send("/app/hello", {}, JSON.stringify({'name': userName, 'msg': message, 'conversationUID' : UIDConversation}));
+            stompClient.send("/app/hello", {}, JSON.stringify({
+                'name': userName,
+                'msg': message,
+                'conversationUID': UIDConversation
+            }));
             $('#write_msg').val('');
         }
 
@@ -83,7 +86,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '/chat/check',
+                    url: 'http://chat-service/chat/check',
                     data: {
                         idClickUser: idClickUser,
                         currentUserId: currentUserId,
@@ -103,7 +106,6 @@
             });
         });
     </script>
-
 </head>
 <body>
 <div class="container">
@@ -123,30 +125,28 @@
                 </span></div>
                     </div>
                 </div>
-                <div class="inbox_chat">
-                    <c:forEach items="${allLoginUser}" var="user">
-                        <div class="chat_list" id="${user.id}">
-                            <div class="chat_people">
-                                <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
-                                                           alt="sunil"></div>
-                                <div class="chat_ib">
-                                    <h5>${user.login}<span class="chat_date">19.08.19</span></h5>
-                                    <p id="lastMsg">Тут наверное будет последнее сообщение</p>
-                                </div>
+                <div th:each="user : ${allLoginUser}" class="inbox_chat">
+                    <div class="chat_list" th:id="${user.id}">
+                        <div class="chat_people">
+                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"
+                                                       alt="sunil"></div>
+                            <div class="chat_ib">
+                                <h5 th:text="${user.login}"><span class="chat_date">19.08.19</span></h5>
+                                <p id="lastMsg">Тут наверное будет последнее сообщение</p>
                             </div>
                         </div>
-                    </c:forEach>
-                    <%--<div class="chat_list active_chat">--%>
-                    <%--<div class="chat_people">--%>
-                    <%--<div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"--%>
-                    <%--alt="sunil"></div>--%>
-                    <%--<div class="chat_ib">--%>
-                    <%--<h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>--%>
-                    <%--<p>Test, which is a new approach to have all solutions--%>
-                    <%--astrology under one roof.</p>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
+                    </div>
+                    <!--                    <div class="chat_list active_chat">-->
+                    <!--                        <div class="chat_people">-->
+                    <!--                            <div class="chat_img"><img src="https://ptetutorials.com/images/user-profile.png"-->
+                    <!--                                                       alt="sunil"></div>-->
+                    <!--                            <div class="chat_ib">-->
+                    <!--                                <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>-->
+                    <!--                                <p>Test, which is a new approach to have all solutions-->
+                    <!--                                    astrology under one roof.</p>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                 </div>
             </div>
             <div class="mesgs">

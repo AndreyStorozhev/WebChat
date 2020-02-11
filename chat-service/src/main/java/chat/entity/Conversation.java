@@ -15,15 +15,15 @@ public class Conversation {
     private int id;
 
     @Column(name = "conversation_uid")
-    private int ConversationUID;
+    private int conversationUID;
 
     @Column(name = "last_active_chat_date")
     private Date lastActiveChatDate;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinTable(name = "conversations_users", joinColumns = @JoinColumn(name = "conversation_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_details_id"))
-//    private Set<User> userDetailsSet;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "conversations_users", joinColumns = @JoinColumn(name = "conversation_id"),
+            inverseJoinColumns = @JoinColumn(name = "chat_user_id"))
+    private Set<ChatUser> chatUserSet;
 
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Message> messages;
@@ -37,11 +37,11 @@ public class Conversation {
     }
 
     public int getConversationUID() {
-        return ConversationUID;
+        return conversationUID;
     }
 
-    public void setConversationUID(int UIDConversation) {
-        this.ConversationUID = UIDConversation;
+    public void setConversationUID(int conversationUID) {
+        this.conversationUID = conversationUID;
     }
 
     public Date getLastActiveChatDate() {
@@ -52,13 +52,13 @@ public class Conversation {
         this.lastActiveChatDate = lastActiveChatDate;
     }
 
-//    public Set<User> getUserDetailsSet() {
-//        return userDetailsSet;
-//    }
+    public Set<ChatUser> getChatUser() {
+        return chatUserSet;
+    }
 
-//    public void setUserDetailsSet(Set<User> userSet) {
-//        this.userDetailsSet = userDetailsSet;
-//    }
+    public void setUserDetailsSet(Set<ChatUser> userSet) {
+        this.chatUserSet = userSet;
+    }
 
     public Set<Message> getMessages() {
         if (CollectionUtils.isEmpty(messages))

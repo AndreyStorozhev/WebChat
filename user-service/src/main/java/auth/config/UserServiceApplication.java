@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableEurekaClient
 @EnableJpaRepositories("auth.dao")
 @EntityScan("auth.entity")
-@EnableZuulProxy
 @ComponentScan({"auth.controllers", "auth.service", "auth.validator"})
 @Import({WebSecurityConfig.class, OtherConfig.class})
 public class UserServiceApplication {

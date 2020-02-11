@@ -38,9 +38,6 @@ public class User {
     @Transient
     private String confirmPassword;
 
-//    @ManyToMany(mappedBy = "userSet", fetch = FetchType.EAGER)
-//    private Set<Conversation> conversations;
-
     public boolean isActivateAccount() {
         return activateAccount;
     }
@@ -120,14 +117,6 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-
-//    public Set<Conversation> getConversations() {
-//        return conversations;
-//    }
-//
-//    public void setConversations(Set<Conversation> conversations) {
-//        this.conversations = conversations;
-//    }
 
     @Override
     public boolean equals(Object o) {
